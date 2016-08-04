@@ -5,6 +5,13 @@ export default function counterReducer (state = initialState.counter, action) {
     case types.COUNTER_INCREMENT_SUCCESS:
       return action.counter
 
+    case types.COUNTER_INCREMENT_ONE:
+      console.log('INCREMENT ONE')
+      return state + 1
+
+    case types.COUNTER_INCREMENT_DOUBLE:
+      return state * 2
+
     case types.COUNTER_LOAD_SUCCESS:
       return action.counter
 

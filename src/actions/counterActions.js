@@ -5,7 +5,16 @@ export function loadCounterSucess (counter) {
   return { type: types.COUNTER_LOAD_SUCCESS, counter }
 }
 
+export function incrementCounterByOne (counter) {
+  return { type: types.COUNTER_INCREMENT_ONE, counter }
+}
+
+export function incrementCounterByDouble (counter) {
+  return { type: types.COUNTER_INCREMENT_DOUBLE, counter }
+}
+
 export function updateCounterSuccess (counter) {
+  console.log('UPDATED COUNTER!!!', counter)
   return { type: types.COUNTER_INCREMENT_SUCCESS, counter }
 }
 
@@ -25,7 +34,7 @@ export function loadCounter () {
   }
 }
 
-export function incrementCounter (counter) {
+export function updateCounterInDB (counter) {
   return function (dispatch) {
     dispatch(beginAjaxCall())
     return counterApi.saveCounter(counter).then((savedCounter) => {

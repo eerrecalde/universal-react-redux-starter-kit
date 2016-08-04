@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as counterActions from '../../actions/counterActions'
 import Counter from './Counter'
 
-export class ManageCounter extends Component {
+export class CounterContainer extends Component {
 
   constructor (props, context) {
     super(props, context)
@@ -24,10 +24,13 @@ export class ManageCounter extends Component {
 
   increment (event) {
     event.preventDefault()
-    let counter = this.state.counter + 1
+    let counter = this.state.counter
     this.setState({counter: counter})
     this.setState({saving: true})
-    this.props.actions.incrementCounter(counter)
+
+    // Here we're calling the action 'incrementCounterByOne' to update the store, which returns the updated state
+    // We use the returned new state to update the value in the DB through the action 'updateDB'.
+    this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByOne(counter))
       .then(() => {
         console.log('Increment Saved!!')
         this.setState({saving: false})
@@ -39,10 +42,10 @@ export class ManageCounter extends Component {
   }
 
   doubleAsync () {
-    let counter = this.state.counter * 2
+    let counter = this.state.counter
     this.setState({counter: counter})
     this.setState({saving: true})
-    this.props.actions.incrementCounter(counter)
+    this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByDouble(counter))
       .then(() => {
         console.log('doubleAsync Saved!!')
         this.setState({saving: false})
@@ -64,13 +67,13 @@ export class ManageCounter extends Component {
   }
 }
 
-ManageCounter.propTypes = {
+CounterContainer.propTypes = {
   counter: PropTypes.number.isRequired,
   actions: PropTypes.object.isRequired
 }
 
 // Pull in the React Router context so router is available on this.context.router
-ManageCounter.contextTypes = {
+CounterContainer.contextTypes = {
   router: PropTypes.object
 }
 
@@ -88,4 +91,4 @@ function mapDispatchToProp (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProp)(ManageCounter)
+export default connect(mapStateToProps, mapDispatchToProp)(CounterContainer)
