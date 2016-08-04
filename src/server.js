@@ -5,24 +5,26 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import { getStyles } from 'simple-universal-style-loader'
 import Helmet from 'react-helmet'
-import createStore from './store/createStore'
-import AppContainer from './containers/AppContainer'
+import configureStore from './store/configureStore'
+import { loadCounter } from './actions/counterActions'
+import Index from './index'
 import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/layout'
 import renderLayout from './modules/Layout'
-
+import routes from './routes'
 const debug = _debug('app:server:universal:render')
 
 export default getClientInfo => {
   return async function (ctx, next) {
     const initialState = {}
     const memoryHistory = createMemoryHistory(ctx.req.url)
-    const store = createStore(initialState, memoryHistory)
-    const routes = require('./routes/index').default(store)
+    const store = configureStore(initialState, memoryHistory)
     const history = syncHistoryWithStore(memoryHistory, store, {
       selectLocationState: (state) => state.router
     })
+
+    store.dispatch(loadCounter())
 
     match({history, routes, location: ctx.req.url}, async (err, redirect, props) => {
       debug('Handle route', ctx.req.url)
@@ -102,7 +104,7 @@ export default getClientInfo => {
         .getScripts(([vendor, app]))
         .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
       content = renderToStaticMarkup(
-        <AppContainer
+        <Index
           history={history}
           routerKey={Math.random()}
           routes={routes}

@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import Helmet from 'react-helmet'
-import defaultLayout from '../../config/layout'
+import defaultLayout from '../config/layout'
 import clone from 'clone'
 
-class AppContainer extends React.Component {
+class Index extends React.Component {
   static propTypes = {
     layout: PropTypes.object,
     history: PropTypes.object.isRequired,
@@ -28,4 +28,4 @@ class AppContainer extends React.Component {
   }
 }
 
-export default AppContainer
+export default Index
