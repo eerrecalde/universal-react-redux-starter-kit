@@ -12,9 +12,11 @@ export const getAssets = (localAssets = []) => (
   )
 )
 
-export const getAssetsByExtension = (extension, localAssets = []) => (
-  getAssets(localAssets).filter(asset => new RegExp('.(' + extension + ')$').test(asset))
-)
+export const getAssetsByExtension = (extension, localAssets = []) => {
+  // Fixed issue about not picking up the elements, but nested arrays.
+  let flattened = getAssets(localAssets).reduce((a, b) => a.concat(b), [])
+  return flattened.filter(asset => new RegExp('.(' + extension + ')$').test(asset))
+}
 
 export const getScripts = (localAssets = []) => (
   getAssetsByExtension('js', localAssets)
