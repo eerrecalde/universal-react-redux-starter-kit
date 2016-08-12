@@ -8,6 +8,7 @@ import configureStore from './store/configureStore'
 import Index from './index'
 import layout from '../config/layout'
 import routes from './routes'
+
 // ========================================================
 // Browser History Setup
 // ========================================================
@@ -45,15 +46,13 @@ if (0 && __DEBUG__) {
 const MOUNT_NODE = document.getElementById('root')
 
 let render = (routerKey = null) => {
-  // const routes = require('./routes')
-
   ReactDOM.render(
     <Index
       store={store}
       history={history}
       routes={routes}
       routerKey={routerKey}
-      layout={{...layout}}
+      layout={{...layout, ...(window.___LAYOUT__ || {})}}
     />,
     MOUNT_NODE
   )
