@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-import createStore from './store/createStore'
-import AppContainer from './containers/AppContainer'
-import { getStyles } from './modules/Assetic'
+import { loadCounter } from './actions/counterActions'
+import configureStore from './store/configureStore'
+import Index from './index'
 import layout from '../config/layout'
+import routes from './routes'
 
 // ========================================================
 // Browser History Setup
@@ -23,10 +24,12 @@ const browserHistory = useRouterHistory(createBrowserHistory)({
 // so we need to provide a custom `selectLocationState` to inform
 // react-router-redux of its location.
 const initialState = window.___INITIAL_STATE__
-const store = createStore(initialState, browserHistory)
+const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.router
 })
+
+store.dispatch(loadCounter())
 
 // ========================================================
 // Developer Tools Setup
@@ -43,15 +46,13 @@ if (0 && __DEBUG__) {
 const MOUNT_NODE = document.getElementById('root')
 
 let render = (routerKey = null) => {
-  const routes = require('./routes/index').default(store)
-
   ReactDOM.render(
-    <AppContainer
+    <Index
       store={store}
       history={history}
       routes={routes}
       routerKey={routerKey}
-      layout={{...layout}}
+      layout={{...layout, ...(window.___LAYOUT__ || {})}}
     />,
     MOUNT_NODE
   )
@@ -73,7 +74,7 @@ if (__DEV__ && module.hot) {
       renderError(error)
     }
   }
-  module.hot.accept(['./routes/index'], () => render())
+  module.hot.accept(['./routes'], () => render())
 }
 
 // ========================================================

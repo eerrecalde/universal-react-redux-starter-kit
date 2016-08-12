@@ -1,31 +1,33 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import Helmet from 'react-helmet'
 import classes from './Counter.scss'
 
-export const Counter = (props) => (
-  <div>
-    <Helmet title='Counter' />
-    <h2 className={classes.counterContainer}>
-      Counter:
+const Counter = ({counter, onIncrement, onDoubleAsync}) => {
+  return (
+    <div>
+      <Helmet title='Counter' />
+      <h2 className={classes.counterContainer}>
+        Counter:
+        {' '}
+        <span className={classes['counter--green']}>
+          {counter}
+        </span>
+      </h2>
+      <button className='btn btn-default' onClick={onIncrement}>
+        Increment
+      </button>
       {' '}
-      <span className={classes['counter--green']}>
-        {props.counter}
-      </span>
-    </h2>
-    <button className='btn btn-default' onClick={props.increment}>
-      Increment
-    </button>
-    {' '}
-    <button className='btn btn-default' onClick={props.doubleAsync}>
-      Double (Async)
-    </button>
-  </div>
-)
+      <button className='btn btn-default' onClick={onDoubleAsync}>
+        Double (Async)
+      </button>
+    </div>
+  )
+}
 
 Counter.propTypes = {
-  counter: React.PropTypes.number.isRequired,
-  doubleAsync: React.PropTypes.func.isRequired,
-  increment: React.PropTypes.func.isRequired
+  counter: PropTypes.number.isRequired,
+  onIncrement: PropTypes.func.isRequired,
+  onDoubleAsync: PropTypes.func.isRequired
 }
 
 export default Counter

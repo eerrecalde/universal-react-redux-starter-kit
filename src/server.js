@@ -5,12 +5,15 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import { getStyles } from 'simple-universal-style-loader'
 import Helmet from 'react-helmet'
-import createStore from './store/createStore'
-import AppContainer from './containers/AppContainer'
+import configureStore from './store/configureStore'
+import { loadCounter } from './actions/counterActions'
+import Index from './index'
 import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/layout'
-import renderLayout from './modules/Layout'
+import { renderHtmlLayout } from 'helmet-webpack-plugin'
+import config from '../config'
+import routes from './routes'
 
 const debug = _debug('app:server:universal:render')
 
@@ -18,11 +21,12 @@ export default getClientInfo => {
   return async function (ctx, next) {
     const initialState = {}
     const memoryHistory = createMemoryHistory(ctx.req.url)
-    const store = createStore(initialState, memoryHistory)
-    const routes = require('./routes/index').default(store)
+    const store = configureStore(initialState, memoryHistory)
     const history = syncHistoryWithStore(memoryHistory, store, {
       selectLocationState: (state) => state.router
     })
+
+    store.dispatch(loadCounter())
 
     match({history, routes, location: ctx.req.url}, async (err, redirect, props) => {
       debug('Handle route', ctx.req.url)
@@ -36,17 +40,24 @@ export default getClientInfo => {
           href: `${asset}`
         }))
 
+      // This will be transferred to the client side in __LAYOUT__ variable
+      // when universal is enabled we need to make sure the client to know about the chunk styles
+      let layoutWithLinks = {
+        ...defaultLayout,
+        link: links
+      }
+
       // React-helmet will overwrite the layout once the client start running so that
       // we don't have to remove our unused styles generated on server side
       let layout = {
-        ...defaultLayout,
-        link: links,
+        ...layoutWithLinks,
         style: getStyles().map(style => ({
           cssText: style.parts.map(part => `${part.css}\n`).join('\n')
         })),
         script: [
           ...defaultLayout.script,
-          {type: 'text/javascript', innerHTML: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}
+          {type: 'text/javascript', innerHTML: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`},
+          {type: 'text/javascript', innerHTML: `___LAYOUT__ = ${JSON.stringify(layoutWithLinks)}`}
         ]
       }
 
@@ -63,7 +74,7 @@ export default getClientInfo => {
         )
         head = Helmet.rewind()
         ctx.status = 500
-        ctx.body = renderLayout(head, content)
+        ctx.body = renderHtmlLayout(head, content)
         return
       }
 
@@ -71,10 +82,7 @@ export default getClientInfo => {
       // No route matched
       // This should never happen if the router has a '*' route defined
       // ----------------------------------
-      if (next &&
-        typeof err === 'undefined' &&
-        typeof redirect === 'undefined' &&
-        typeof props === 'undefined') {
+      if (typeof err === 'undefined' && typeof redirect === 'undefined' && typeof props === 'undefined') {
         debug('No route found.')
 
         // We could call our next middleware maybe
@@ -91,7 +99,7 @@ export default getClientInfo => {
         )
         head = Helmet.rewind()
         ctx.status = 404
-        ctx.body = renderLayout(head, content)
+        ctx.body = renderHtmlLayout(head, content)
         return
       }
 
@@ -102,7 +110,7 @@ export default getClientInfo => {
         .getScripts(([vendor, app]))
         .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
       content = renderToStaticMarkup(
-        <AppContainer
+        <Index
           history={history}
           routerKey={Math.random()}
           routes={routes}
@@ -110,8 +118,9 @@ export default getClientInfo => {
           layout={layout} />
       )
       head = Helmet.rewind()
+      let body = <div key='body' {...config.app_mount_point} dangerouslySetInnerHTML={{__html: content}} />
       ctx.status = 200
-      ctx.body = renderLayout(head, content, scripts)
+      ctx.body = renderHtmlLayout(head, [body, scripts])
     })
   }
 }
