@@ -28,13 +28,13 @@
   },
   "betterScripts": {
     "compile": {
-      "command": "babel-node bin/compile",
+      "command": "babel-node build/compile",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "dev": {
-      "command": "nodemon --exec babel-node bin/server",
+      "command": "nodemon --exec babel-node server/server",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
@@ -61,13 +61,13 @@
       }
     },
     "start": {
-      "command": "babel-node bin/server",
+      "command": "babel-node server/server",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "start:prod": {
-      "command": "babel-node bin/server",
+      "command": "babel-node server/server",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"

@@ -2,11 +2,11 @@ import Webpack from 'webpack'
 import config from '../../config'
 import webpackConfig from '../../build/webpack.config.server'
 import _debug from 'debug'
+import path from 'path'
 
-const paths = config.utils_paths
 const debug = _debug('app:server:universal')
 const {__DEV__} = config.globals
-const output = paths.dist(config.universal.output)
+const output = path.join(config.paths.dist, config.universal.output)
 
 export default async function () {
   debug('Enable universal middleware.')

@@ -11,9 +11,9 @@ import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
 import universalMiddleware from './middleware/universal'
+import path from 'path'
 
 const debug = _debug('app:server')
-const paths = config.utils_paths
 
 export default async () => {
   const app = new Koa()
@@ -60,12 +60,12 @@ export default async () => {
     // these files. This middleware doesn't need to be enabled outside
     // of development since this directory will be copied into ~/dist
     // when the application is compiled.
-    app.use(serve(paths.src('static')))
+    app.use(serve(path.join(config.paths.src, 'static')))
   } else {
     if (config.universal.enabled) {
       // Get assets from client_info.json
       debug('Read client info.')
-      fs.readJSON(paths.dist(config.universal.client_info), (err, data) => {
+      fs.readJSON(path.join(config.paths.dist, config.universal.client_info), (err, data) => {
         if (err) {
           clientInfo = {}
           debug('Failed to read client_data!')
@@ -86,7 +86,7 @@ export default async () => {
     // Serving ~/dist by default. Ideally these files should be served by
     // the web server and not the app server when universal is turned off,
     // but this helps to demo the server in production.
-    app.use(serve(paths.public()))
+    app.use(serve(config.paths.public))
   }
 
   if (config.universal && config.universal.enabled) {

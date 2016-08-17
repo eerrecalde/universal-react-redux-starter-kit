@@ -2,15 +2,15 @@ import webpack from 'webpack'
 import cssnano from 'cssnano'
 import config from '../config'
 import _debug from 'debug'
+import path from 'path'
 
 const debug = _debug('app:webpack:config')
-const paths = config.utils_paths
 
 debug('Create generic configuration.')
 const webpackConfig = {
   devtool: config.compiler_devtool,
   resolve: {
-    root: paths.src(),
+    root: config.paths.src,
     extensions: ['', '.js', '.jsx', '.json']
   },
   module: {
@@ -46,7 +46,7 @@ webpackConfig.module.preLoaders = [{
 }]
 
 webpackConfig.eslint = {
-  configFile: paths.base('.eslintrc'),
+  configFile: path.join(config.paths.base, '.eslintrc'),
   emitWarning: __DEV__
 }
 */
@@ -91,7 +91,7 @@ const PATHS_TO_TREAT_AS_CSS_MODULES = [
 // If config has CSS modules enabled, treat this project's styles as CSS modules.
 if (config.compiler_css_modules) {
   PATHS_TO_TREAT_AS_CSS_MODULES.push(
-    paths.src().replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
+    config.paths.src.replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&') // eslint-disable-line
   )
 }
 
@@ -155,7 +155,7 @@ webpackConfig.module.loaders.push({
 // Style Configuration
 // ------------------------------------
 webpackConfig.sassLoader = {
-  includePaths: paths.src('styles')
+  includePaths: path.join(config.paths.src, 'styles')
 }
 
 webpackConfig.postcss = [

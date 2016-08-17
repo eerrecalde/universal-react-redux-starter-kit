@@ -3,7 +3,6 @@ import applyExpressMiddleware from '../lib/apply-express-middleware'
 import _debug from 'debug'
 import config from '../../config'
 
-const paths = config.utils_paths
 const debug = _debug('app:server:webpack-dev')
 
 export default function (compiler, publicPath) {
@@ -11,7 +10,7 @@ export default function (compiler, publicPath) {
 
   const middleware = WebpackDevMiddleware(compiler, {
     publicPath,
-    contentBase: paths.src(),
+    contentBase: config.paths.src,
     hot: true,
     quiet: config.compiler_quiet,
     noInfo: config.compiler_quiet,

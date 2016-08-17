@@ -1,13 +1,13 @@
 import fs from 'fs-extra'
 import _debug from 'debug'
-import webpackCompiler from '../build/webpack-compiler'
-import webpackConfigClient from '../build/webpack.config.client'
-import webpackConfigServer from '../build/webpack.config.server'
+import webpackCompiler from './webpack-compiler'
+import webpackConfigClient from './webpack.config.client'
+import webpackConfigServer from './webpack.config.server'
 import config from '../config'
+import path from 'path'
 
 const debug = _debug('app:bin:compile')
-const paths = config.utils_paths
-const clientInfo = paths.dist(config.universal.client_info)
+const clientInfo = path.join(config.paths.dist, 'client_info.json')
 
 ;(async function () {
   try {
@@ -34,7 +34,7 @@ const clientInfo = paths.dist(config.universal.client_info)
     }
 
     debug('Copy static assets to dist folder.')
-    fs.copySync(paths.src('static'), paths.public())
+    fs.copySync(path.join(config.paths.src, 'static'), config.paths.public)
   } catch (e) {
     debug('Compiler encountered an error.', e)
     process.exit(1)

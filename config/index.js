@@ -24,6 +24,13 @@ const config = {
   dir_server : 'server',
   dir_test   : 'tests',
 
+  paths : {
+    base   : path.join(__dirname, '..'),
+    src    : path.join(__dirname, '..', 'src'),
+    dist   : path.join(__dirname, '..', 'dist'),
+    public : path.join(__dirname, '..', 'dist/public')
+  },
+
   // ----------------------------------
   // Entry points
   // ----------------------------------
@@ -123,20 +130,6 @@ config.compiler_vendor = config.compiler_vendor
        Consider removing it from vendor_dependencies in ~/config/index.js`
     )
   })
-
-// ------------------------------------
-// Utilities
-// ------------------------------------
-const resolve = path.resolve
-const base = (...args) =>
-  Reflect.apply(resolve, null, [config.path_base, ...args])
-
-config.utils_paths = {
-  base   : base,
-  src    : base.bind(null, config.dir_src),
-  dist   : base.bind(null, config.dir_dist),
-  public : base.bind(null, config.dir_public)
-}
 
 // ========================================================
 // Environment Configuration

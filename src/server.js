@@ -33,6 +33,7 @@ export default getClientInfo => {
 
       let head, content
       let {app, vendor} = getClientInfo().assetsByChunkName
+      console.log('<><><><>', app, vendor)
       let links = Assetic
         .getStyles(([vendor, app]))
         .map(asset => ({
