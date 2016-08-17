@@ -6,7 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { loadCounter } from './actions/counterActions'
 import configureStore from './store/configureStore'
 import Index from './index'
-import layout from '../config/layout'
+import layout from '../config/defaultLayout'
 import routes from './routes'
 
 // ========================================================

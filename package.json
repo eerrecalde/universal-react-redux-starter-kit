@@ -21,9 +21,9 @@
     "test": "better-npm-run test",
     "test:dev": "npm run test -- --watch",
     "test:watch": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy",
-    "deploy:dev": "better-npm-run deploy:dev",
-    "deploy:prod": "better-npm-run deploy:prod",
+    "build": "better-npm-run build",
+    "build:dev": "better-npm-run build:dev",
+    "build:prod": "better-npm-run build:prod",
     "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
@@ -40,21 +40,21 @@
         "DEBUG": "app:*"
       }
     },
-    "deploy": {
+    "build": {
       "command": "npm run clean && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
     },
-    "deploy:dev": {
-      "command": "npm run deploy",
+    "build:dev": {
+      "command": "npm run build",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
-    "deploy:prod": {
-      "command": "npm run deploy",
+    "build:prod": {
+      "command": "npm run build",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"

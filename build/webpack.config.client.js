@@ -6,7 +6,7 @@ import clone from 'clone'
 import config from '../config'
 import _debug from 'debug'
 import path from 'path'
-import layout from '../config/layout'
+import layout from '../config/defaultLayout'
 
 const debug = _debug('app:webpack:config')
 const {__DEV__, __PROD__, __TEST__} = config.globals
