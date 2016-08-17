@@ -32,7 +32,6 @@ export class CounterContainer extends Component {
     // We use the returned new state to update the value in the DB through the action 'updateDB'.
     this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByOne(counter))
       .then(() => {
-        console.log('Increment Saved!!')
         this.setState({saving: false})
       })
       .catch((error) => {
@@ -47,7 +46,6 @@ export class CounterContainer extends Component {
     this.setState({saving: true})
     this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByDouble(counter))
       .then(() => {
-        console.log('doubleAsync Saved!!')
         this.setState({saving: false})
       })
       .catch((error) => {

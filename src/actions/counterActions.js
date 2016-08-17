@@ -14,7 +14,6 @@ export function incrementCounterByDouble (counter) {
 }
 
 export function updateCounterSuccess (counter) {
-  console.log('UPDATED COUNTER!!!', counter)
   return { type: types.COUNTER_INCREMENT_SUCCESS, counter }
 }
 
