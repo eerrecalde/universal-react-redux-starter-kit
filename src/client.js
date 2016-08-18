@@ -4,6 +4,8 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { loadCounter } from './actions/counterActions'
+import {loadCourses} from './actions/courseActions'
+import {loadAuthors} from './actions/authorActions'
 import configureStore from './store/configureStore'
 import Index from './index'
 import layout from '../config/defaultLayout'
@@ -30,6 +32,8 @@ const history = syncHistoryWithStore(browserHistory, store, {
 })
 
 store.dispatch(loadCounter())
+store.dispatch(loadCourses())
+store.dispatch(loadAuthors())
 
 // ========================================================
 // Developer Tools Setup

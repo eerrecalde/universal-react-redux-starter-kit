@@ -7,6 +7,8 @@ import { getStyles } from 'simple-universal-style-loader'
 import Helmet from 'react-helmet'
 import configureStore from './store/configureStore'
 import { loadCounter } from './actions/counterActions'
+import {loadCourses} from './actions/courseActions'
+import {loadAuthors} from './actions/authorActions'
 import Index from './index'
 import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
@@ -27,6 +29,10 @@ export default getClientInfo => {
     })
 
     store.dispatch(loadCounter())
+    store.dispatch(loadCourses())
+    store.dispatch(loadAuthors())
+
+    console.log('SERVER INIT!!!')
 
     match({history, routes, location: ctx.req.url}, async (err, redirect, props) => {
       debug('Handle route', ctx.req.url)
