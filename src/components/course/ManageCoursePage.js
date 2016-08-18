@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as courseActions from '../../actions/courseActions'
 import CourseForm from './CourseForm'
-import toastr from 'toastr'
 import {authorsFormattedForDropdown} from '../../selectors/selectors'
 
 export class ManageCoursePage extends Component {
@@ -59,14 +58,14 @@ export class ManageCoursePage extends Component {
     this.props.actions.saveCourse(this.state.course)
       .then(() => this.redirect('/courses'))
       .catch((error) => {
-        toastr.error(error)
+        alert(error)
         this.setState({saving: false})
       })
   }
 
   redirect (newPage) {
     this.setState({saving: false})
-    toastr.success('Course saved')
+    alert('Course saved')
     this.context.router.push(newPage)
   }
 

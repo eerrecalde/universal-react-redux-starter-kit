@@ -24,13 +24,14 @@ export class CounterContainer extends Component {
 
   increment (event) {
     event.preventDefault()
-    let counter = this.state.counter
+
+    let counter = this.state.counter + 1
     this.setState({counter: counter})
     this.setState({saving: true})
 
     // Here we're calling the action 'incrementCounterByOne' to update the store, which returns the updated state
     // We use the returned new state to update the value in the DB through the action 'updateDB'.
-    this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByOne(counter))
+    this.props.actions.updateCounterInDB(counter)
       .then(() => {
         this.setState({saving: false})
       })
@@ -44,7 +45,7 @@ export class CounterContainer extends Component {
     let counter = this.state.counter
     this.setState({counter: counter})
     this.setState({saving: true})
-    this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByDouble(counter))
+    this.props.actions.updateCounterInDB(this.props.actions.incrementCounterByDouble(counter).counter)
       .then(() => {
         this.setState({saving: false})
       })
