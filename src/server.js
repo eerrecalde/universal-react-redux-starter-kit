@@ -28,12 +28,6 @@ export default getClientInfo => {
       selectLocationState: (state) => state.router
     })
 
-    store.dispatch(loadCounter())
-    store.dispatch(loadCourses())
-    store.dispatch(loadAuthors())
-
-    console.log('SERVER INIT!!!')
-
     match({history, routes, location: ctx.req.url}, async (err, redirect, props) => {
       debug('Handle route', ctx.req.url)
 
