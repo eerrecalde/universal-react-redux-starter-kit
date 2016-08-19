@@ -81,6 +81,7 @@
     }
   },
   "dependencies": {
+    "alertify-js": "^0.3.12",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",

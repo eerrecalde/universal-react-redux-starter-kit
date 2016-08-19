@@ -71,6 +71,7 @@ const config = {
     colors : true
   },
   compiler_vendor : [
+    'alertify-js',
     'babel-polyfill',
     'history',
     'react',

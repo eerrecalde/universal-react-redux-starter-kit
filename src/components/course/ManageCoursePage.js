@@ -4,6 +4,9 @@ import {bindActionCreators} from 'redux'
 import * as courseActions from '../../actions/courseActions'
 import CourseForm from './CourseForm'
 import {authorsFormattedForDropdown} from '../../selectors/selectors'
+import '../../../node_modules/alertify-js/themes/alertify.core.css'
+import '../../../node_modules/alertify-js/themes/alertify.default.css'
+var alertify
 
 export class ManageCoursePage extends Component {
 
@@ -58,15 +61,20 @@ export class ManageCoursePage extends Component {
     this.props.actions.saveCourse(this.state.course)
       .then(() => this.redirect('/courses'))
       .catch((error) => {
-        alert(error)
+        alertify.error(error)
         this.setState({saving: false})
       })
   }
 
   redirect (newPage) {
     this.setState({saving: false})
-    alert('Course saved')
+    alertify.success('Course saved')
     this.context.router.push(newPage)
+  }
+
+  componentDidMount () {
+    alertify = require('../../../node_modules/alertify-js/lib/alertify.js')
+    console.log('MOUNTED', alertify)
   }
 
   render () {
