@@ -94,7 +94,8 @@ export default async () => {
       let um = await universalMiddleware()
       app.use(um.default(() => clientInfo))
     } catch (err) {
-      debug('ERROR', err)
+      debug('ERROR! Aborting server start due to error: ', err)
+      throw err
     }
   }
 
