@@ -12,23 +12,23 @@ debug('Creating default configuration.')
 // Default Configuration
 // ========================================================
 const config = {
-  env : process.env.NODE_ENV || 'development',
+  env: process.env.NODE_ENV || 'development',
 
   // ----------------------------------
   // Project Structure
   // ----------------------------------
-  path_base  : path.resolve(__dirname, '..'),
-  dir_src    : 'src',
-  dir_dist   : 'dist',
-  dir_public : 'dist/public',
-  dir_server : 'server',
-  dir_test   : 'tests',
+  path_base: path.resolve(__dirname, '..'),
+  dir_src: 'src',
+  dir_dist: 'dist',
+  dir_public: 'dist/public',
+  dir_server: 'server',
+  dir_test: 'tests',
 
-  paths : {
-    base   : path.join(__dirname, '..'),
-    src    : path.join(__dirname, '..', 'src'),
-    dist   : path.join(__dirname, '..', 'dist'),
-    public : path.join(__dirname, '..', 'dist/public')
+  paths: {
+    base: path.join(__dirname, '..'),
+    src: path.join(__dirname, '..', 'src'),
+    dist: path.join(__dirname, '..', 'dist'),
+    public: path.join(__dirname, '..', 'dist/public')
   },
 
   // ----------------------------------
@@ -48,28 +48,28 @@ const config = {
   // ----------------------------------
   // Server Configuration
   // ----------------------------------
-  server_host   : process.env.HOST || localip,
-  server_port   : process.env.PORT || 3000,
-  universal     : {
-    enabled     : true,
-    output      : 'server.js',
-    client_info : 'client_info.json'
+  server_host: process.env.HOST || localip,
+  server_port: process.env.PORT || 3000,
+  universal: {
+    enabled: true,
+    output: 'server.js',
+    client_info: 'client_info.json'
   },
 
   // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
-  compiler_devtool         : 'source-map',
-  compiler_hash_type       : 'hash',
-  compiler_fail_on_warning : false,
-  compiler_quiet           : false,
-  compiler_public_path     : '/',
-  compiler_stats           : {
-    chunks : false,
-    chunkModules : false,
-    colors : true
+  compiler_devtool: 'source-map',
+  compiler_hash_type: 'hash',
+  compiler_fail_on_warning: false,
+  compiler_quiet: false,
+  compiler_public_path: '/',
+  compiler_stats: {
+    chunks: false,
+    chunkModules: false,
+    colors: true
   },
-  compiler_vendor : [
+  compiler_vendor: [
     'alertify-js',
     'babel-polyfill',
     'history',
@@ -95,15 +95,15 @@ Edit at Your Own Risk
 // ------------------------------------
 // N.B.: globals added here must _also_ be added to .eslintrc
 config.globals = {
-  'process.env'  : {
-    'NODE_ENV' : JSON.stringify(config.env)
+  'process.env': {
+    'NODE_ENV': JSON.stringify(config.env)
   },
-  'NODE_ENV'     : config.env,
-  '__DEV__'      : config.env === 'development',
-  '__PROD__'     : config.env === 'production',
-  '__TEST__'     : config.env === 'test',
-  '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
-  '__BASENAME__' : JSON.stringify(process.env.BASENAME || '')
+  'NODE_ENV': config.env,
+  '__DEV__': config.env === 'development',
+  '__PROD__': config.env === 'production',
+  '__TEST__': config.env === 'test',
+  '__DEBUG__': config.env === 'development' && !argv.no_debug,
+  '__BASENAME__': JSON.stringify(process.env.BASENAME || '')
 }
 
 // ------------------------------------
