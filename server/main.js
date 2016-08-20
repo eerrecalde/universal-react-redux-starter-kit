@@ -90,8 +90,12 @@ export default async () => {
   }
 
   if (config.universal && config.universal.enabled) {
-    let um = await universalMiddleware()
-    app.use(um.default(() => clientInfo))
+    try {
+      let um = await universalMiddleware()
+      app.use(um.default(() => clientInfo))
+    } catch (err) {
+      debug('ERROR', err)
+    }
   }
 
   return Promise.resolve(app)
