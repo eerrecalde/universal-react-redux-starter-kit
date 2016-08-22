@@ -11,7 +11,7 @@ import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/defaultLayout'
 import { renderHtmlLayout } from 'helmet-webpack-plugin'
-import config from '../config'
+import config from '../config/defaults'
 import routes from './routes'
 
 const debug = _debug('app:server:universal:render')

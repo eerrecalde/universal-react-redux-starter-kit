@@ -1,7 +1,7 @@
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import applyExpressMiddleware from './apply-express-middleware'
 import _debug from 'debug'
-import config from '../../config'
+import config from '../../config/defaults'
 
 const debug = _debug('app:server:webpack-dev')
 

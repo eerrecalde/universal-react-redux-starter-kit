@@ -1,6 +1,6 @@
 import webpack from 'webpack'
 import cssnano from 'cssnano'
-import config from '../config'
+import config from '../config/defaults'
 import _debug from 'debug'
 import path from 'path'
 

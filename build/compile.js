@@ -3,7 +3,7 @@ import _debug from 'debug'
 import webpackCompiler from './webpack-compiler'
 import webpackConfigClient from './webpack.config.client'
 import webpackConfigServer from './webpack.config.server'
-import config from '../config'
+import config from '../config/defaults'
 import path from 'path'
 
 const debug = _debug('app:bin:compile')

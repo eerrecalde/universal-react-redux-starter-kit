@@ -1,6 +1,6 @@
 import webpackConfig from './webpack.config'
 import clone from 'clone'
-import config from '../config'
+import config from '../config/defaults'
 import _debug from 'debug'
 import fs from 'fs'
 import path from 'path'

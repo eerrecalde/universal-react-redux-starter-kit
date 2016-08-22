@@ -1,5 +1,5 @@
 import Webpack from 'webpack'
-import config from '../../config'
+import config from '../../config/defaults'
 import webpackConfig from '../../build/webpack.config.server'
 import _debug from 'debug'
 import path from 'path'
