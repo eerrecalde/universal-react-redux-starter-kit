@@ -1,18 +1,18 @@
 import webpackConfig from './webpack.config'
 import clone from 'clone'
-import config from '../config'
+import config from '../config/defaults'
 import _debug from 'debug'
 import fs from 'fs'
+import path from 'path'
 
 const debug = _debug('app:webpack:config')
-const paths = config.utils_paths
 
 debug('Create server configuration.')
 const webpackConfigServer = clone(webpackConfig)
 
 webpackConfigServer.name = 'server'
 webpackConfigServer.target = 'node'
-webpackConfigServer.externals = fs.readdirSync(paths.base('node_modules'))
+webpackConfigServer.externals = fs.readdirSync(path.join(config.paths.base, 'node_modules'))
   .concat([
     'react-dom/server', 'react/addons'
   ]).reduce(function (ext, mod) {
@@ -25,7 +25,7 @@ webpackConfigServer.externals = fs.readdirSync(paths.base('node_modules'))
 // ------------------------------------
 webpackConfigServer.entry = [
   'babel-polyfill',
-  paths.src(config.entry_server)
+  path.join(config.paths.src, config.entry_server)
 ]
 
 // ------------------------------------
@@ -33,7 +33,7 @@ webpackConfigServer.entry = [
 // ------------------------------------
 webpackConfigServer.output = {
   filename: 'server.js',
-  path: paths.dist(),
+  path: config.paths.dist,
   library: 'server',
   libraryTarget: 'umd',
   umdNamedDefine: true

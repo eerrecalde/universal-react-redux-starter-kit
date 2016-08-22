@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import Helmet from 'react-helmet'
-import defaultLayout from '../config/layout'
+import defaultLayout from '../config/defaultLayout'
 import clone from 'clone'
 
 class Index extends React.Component {
@@ -16,7 +16,6 @@ class Index extends React.Component {
 
   render () {
     const { layout, history, routes, routerKey, store } = this.props
-
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>

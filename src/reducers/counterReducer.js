@@ -6,7 +6,6 @@ export default function counterReducer (state = initialState.counter, action) {
       return action.counter
 
     case types.COUNTER_INCREMENT_ONE:
-      console.log('INCREMENT ONE')
       return state + 1
 
     case types.COUNTER_INCREMENT_DOUBLE:

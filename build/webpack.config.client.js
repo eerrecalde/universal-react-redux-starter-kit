@@ -3,12 +3,12 @@ import webpackConfig from './webpack.config'
 import HelmetWebpackPlugin from 'helmet-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import clone from 'clone'
-import config from '../config'
+import config from '../config/defaults'
 import _debug from 'debug'
-import layout from '../config/layout'
+import path from 'path'
+import layout from '../config/defaultLayout'
 
 const debug = _debug('app:webpack:config')
-const paths = config.utils_paths
 const {__DEV__, __PROD__, __TEST__} = config.globals
 
 debug('Create client configuration.')
@@ -21,7 +21,7 @@ webpackConfigClient.target = 'web'
 // Entry Points
 // ------------------------------------
 const APP_ENTRY_PATHS = [
-  paths.src(config.entry_client)
+  path.join(config.paths.src, config.entry_client)
 ]
 
 webpackConfigClient.entry = {
@@ -36,7 +36,7 @@ webpackConfigClient.entry = {
 // ------------------------------------
 webpackConfigClient.output = {
   filename: `[name].[${config.compiler_hash_type}].js`,
-  path: paths.public(),
+  path: config.paths.public,
   publicPath: config.compiler_public_path
 }
 

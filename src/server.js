@@ -6,13 +6,12 @@ import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import { getStyles } from 'simple-universal-style-loader'
 import Helmet from 'react-helmet'
 import configureStore from './store/configureStore'
-import { loadCounter } from './actions/counterActions'
 import Index from './index'
 import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
-import defaultLayout from '../config/layout'
+import defaultLayout from '../config/defaultLayout'
 import { renderHtmlLayout } from 'helmet-webpack-plugin'
-import config from '../config'
+import config from '../config/defaults'
 import routes from './routes'
 
 const debug = _debug('app:server:universal:render')
@@ -25,8 +24,6 @@ export default getClientInfo => {
     const history = syncHistoryWithStore(memoryHistory, store, {
       selectLocationState: (state) => state.router
     })
-
-    store.dispatch(loadCounter())
 
     match({history, routes, location: ctx.req.url}, async (err, redirect, props) => {
       debug('Handle route', ctx.req.url)

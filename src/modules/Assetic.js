@@ -1,4 +1,4 @@
-import layout from '../../config/layout'
+import layout from '../../config/defaultLayout'
 
 const fixLocalAsset = assets => (
   (Array.isArray(assets) ? assets : [assets]).map(asset => `/${asset}`)

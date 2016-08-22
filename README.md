@@ -1,18 +1,27 @@
 # React Redux Starter Kit
 
-[![Join the chat at https://gitter.im/davezuko/react-redux-starter-kit](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/davezuko/react-redux-starter-kit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/davezuko/react-redux-starter-kit.svg?branch=master)](https://travis-ci.org/davezuko/react-redux-starter-kit?branch=master)
-[![dependencies](https://david-dm.org/davezuko/react-redux-starter-kit.svg)](https://david-dm.org/davezuko/react-redux-starter-kit)
-[![devDependency Status](https://david-dm.org/davezuko/react-redux-starter-kit/dev-status.svg)](https://david-dm.org/davezuko/react-redux-starter-kit#info=devDependencies)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-This starter kit is designed to get you up and running with a bunch of awesome new front-end technologies, all on top of a configurable, feature-rich webpack build system that's already setup to provide hot reloading, CSS modules with Sass support, unit testing, code coverage reports, bundle splitting, and a whole lot more.
+This starter kit is basically a clone of clones with some extra features. See below the story line to understand why:
 
-The primary goal of this project is to remain as **unopinionated** as possible. Its purpose is not to dictate your project structure or to demonstrate a complete sample application, but to provide a set of tools intended to make front-end development robust, easy, and, most importantly, fun. Check out the full feature list below!
+1- davezuko created this great and robust starter kit (with the help of many other devs): https://github.com/davezuko/react-redux-starter-kit
+which is basically a complete starter kit version using Redux ReactJs
 
-Finally, This project wouldn't be possible without the help of our many contributors, so [thank you](#thank-you) for all of your help.
+2- janoist1 cloned it, and made it universal by adding server side rendering support, and helmet between others. https://github.com/janoist1/universal-react-redux-starter-kit
 
-## Table of Contents
+3- Lastly I cloned it from janoist1 and removed some stuff I believe (this is questionable) are too complex for a normal project + added more features.
+
+My changes below:
+- Simplified or trying to simplify "over wired" stuff (variable assigned with variables depending on other variables)
+- Removed index.js files from folders in favour of a more descriptive file name and removing extra folders.
+- Added api support and implementation with hard coded data in a way that a real api could be easily implemented.
+- Removed tests files from 'test' folder in favour of local test in the component folder.
+- Added mocha.
+- Added more components which uses the api.
+- Moved all config files into config folder.
+- Added actions, reducers (for redux)
+- Removed routes folder (which was including logic + layout + styles) and added a routes.js file with all the routes logic and moved the rest to components.
+
 1. [Features](#features)
 1. [Requirements](#requirements)
 1. [Getting Started](#getting-started)
@@ -58,13 +67,10 @@ After confirming that your development environment meets the specified [requirem
 First, clone or download:
 
 ```bash
-$ git clone git@github.com:janoist1/universal-react-redux-starter-kit.git
-// or
-$ wget -O react-redux-starter-kit.zip https://github.com/janoist1/universal-react-redux-starter-kit/archive/master.zip
-$ unzip react-redux-starter-kit.zip
+$ git clone git@github.com:eerrecalde/universal-react-redux-starter-kit.git
 ```
 
-Then, rename to your project name and change into the directory:
+Then, rename to your project name and get into the directory:
 
 ```bash
 $ mv react-redux-starter-kit <my-project-name>
@@ -92,8 +98,7 @@ $ cd <my-project-name>
 $ npm install                   # Install project dependencies
 $ npm start                     # Compile and launch
 ```
-If everything works, you should see the following:
-
+If everything works, you should see the url and port to browse
 <img src="http://i.imgur.com/zR7VRG6.png?2" />
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
@@ -106,22 +111,20 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`compile`|Compiles the application to disk (`~/dist` by default).|
 |`dev`|Same as `npm start`, but enables nodemon for the server as well.|
 |`dev:no-debug`|Same as `npm run dev` but disables devtool instrumentation.|
-|`test`|Runs unit tests with Karma and generates a coverage report.|
-|`test:dev`|Runs Karma and watches for changes to re-run tests; does not generate coverage reports.|
-|`deploy`|Runs linter, tests, and then, on success, compiles your application to disk.|
-|`deploy:dev`|Same as `deploy` but overrides `NODE_ENV` to "development".|
-|`deploy:prod`|Same as `deploy` but overrides `NODE_ENV` to "production".|
+|`test`|Runs unit tests with Karma|
+|`test:dev`|Runs Karma and watches for changes to re-run tests.|
+|`build`|Runs linter, tests, and then, on success, compiles your application to disk.|
+|`build:dev`|Same as `build` but overrides `NODE_ENV` to "development".|
+|`build:prod`|Same as `build` but overrides `NODE_ENV` to "production".|
 |`lint`|Lint all `.js` files.|
 |`lint:fix`|Lint and fix all `.js` files. [Read more on this](http://eslint.org/docs/user-guide/command-line-interface.html#fix).|
 
 ## Application Structure
 
-The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
+The application structure presented in this boilerplate is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive.
 
 ```
 .
-├── bin                      # Build/Start scripts
-├── blueprints               # Blueprint files for redux-cli
 ├── build                    # All build-related configuration
 │   └── webpack              # Environment-specific configuration files for webpack
 ├── config                   # Project configuration settings
@@ -136,20 +139,12 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── redux                # "Ducks" location...
 │   │   └── modules          # reducer, action, creators not part of a route
 │   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes with store
-│   │   └── Home             # Fractal route
-│   │       ├── index.js     # Route definitions and async split points
-│   │       ├── assets       # Assets required to render components
-│   │       ├── components   # Presentational React Components
-│   │       ├── container    # Connect components to actions and store
-│   │       ├── modules      # Collections of reducers/constants/actions
-│   │       └── routes **    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets (not imported anywhere in source code)
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
 │   └── styles               # Application-wide styles (generally settings)
-└── tests                    # Unit tests
+.
 ```
 
 ## Development
@@ -177,9 +172,7 @@ npm install redux-cli --save-dev
 We use `react-router` [route definitions](https://github.com/reactjs/react-router/blob/master/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
 
 ## Testing
-To add a unit test, simply create a `.spec.js` file anywhere in `~/tests`. Karma will pick up on these files automatically, and Mocha and Chai will be available within your test without the need to import them. If you are using `redux-cli`, test files should automatically be generated when you create a component or redux module.
-
-Coverage reports will be compiled to `~/coverage` by default. If you wish to change what reporters are used and where reports are compiled, you can do so by modifying `coverage_reporters` in `~/config/index.js`.
+To add a unit test, simply create a `.test.js` file anywhere your src folder. Karma will pick up on these files automatically, and Mocha and Chai will be available within your test without the need to import them. If you are using `redux-cli`, test files should automatically be generated when you create a component or redux module.
 
 ## Deployment
 Out of the box, this starter kit is deployable by serving the `~/dist` folder generated by `npm run deploy` (make sure to specify your target `NODE_ENV` as well). This project does not concern itself with the details of server-side rendering or API structure, since that demands an opinionated structure that makes it difficult to extend the starter kit. However, if you do need help with more advanced deployment strategies, here are a few tips:
@@ -297,18 +290,3 @@ This starter kit supports universal rendering by setting the configuration key `
 ## Learning Resources
 
 * [Starting out with react-redux-starter-kit](https://suspicious.website/2016/04/29/starting-out-with-react-redux-starter-kit/) is an introduction to the components used in this starter kit with a small example in the end.
-
-## FAQ
-
-Having trouble? Check out our [FAQ](https://github.com/davezuko/react-redux-starter-kit/wiki/FAQ:-Frequently-Asked-Questions) or submit an issue. Please be considerate by only posting issues that are directly related to this project; questions about how to implement certain React or Redux features are both best suited for StackOverflow or their respective repositories.
-
-## Thank You
-
-This project wouldn't be possible without help from the community, so I'd like to highlight some of its biggest contributors. Thank you all for your hard work, you've made my life a lot easier and taught me a lot in the process.
-
-* [Justin Greenberg](https://github.com/justingreenberg) - For all of your PR's, getting us to Babel 6, and constant work improving our patterns.
-* [Roman Pearah](https://github.com/neverfox) - For your bug reports, help in triaging issues, and PR contributions.
-* [Spencer Dixin](https://github.com/SpencerCDixon) - For your creation of [redux-cli](https://github.com/SpencerCDixon/redux-cli).
-* [Jonas Matser](https://github.com/mtsr) - For your help in triaging issues and unending support in our Gitter channel.
-
-And to everyone else who has contributed, even if you are not listed here your work is appreciated.

@@ -21,53 +21,52 @@
     "test": "better-npm-run test",
     "test:dev": "npm run test -- --watch",
     "test:watch": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy",
-    "deploy:dev": "better-npm-run deploy:dev",
-    "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "build": "better-npm-run build",
+    "build:dev": "better-npm-run build:dev",
+    "build:prod": "better-npm-run build:prod"
   },
   "betterScripts": {
     "compile": {
-      "command": "babel-node bin/compile",
+      "command": "babel-node build/compile",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "dev": {
-      "command": "nodemon --exec babel-node bin/server",
+      "command": "nodemon --exec babel-node server/server",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
-    "deploy": {
+    "build": {
       "command": "npm run clean && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
     },
-    "deploy:dev": {
-      "command": "npm run deploy",
+    "build:dev": {
+      "command": "npm run build",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
-    "deploy:prod": {
-      "command": "npm run deploy",
+    "build:prod": {
+      "command": "npm run build",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
       }
     },
     "start": {
-      "command": "babel-node bin/server",
+      "command": "babel-node server/server",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "start:prod": {
-      "command": "babel-node bin/server",
+      "command": "babel-node server/server",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
@@ -82,6 +81,7 @@
     }
   },
   "dependencies": {
+    "alertify-js": "^0.3.12",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",
